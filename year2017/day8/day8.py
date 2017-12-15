@@ -50,5 +50,5 @@ def runProgram(inputfile):
     print("Largest ever value in registry: {}".format( largest))
 
 
-runProgram("sample.txt")
+runProgram("sample1.txt")
 runProgram("input.txt")
