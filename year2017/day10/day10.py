@@ -4,33 +4,6 @@ def createSequence(seqsize):
         sequence.append(x)
     return sequence
 
-
-def shuffleArray(array, start, length):
-    shortlist = list()
-
-    i = 0
-
-    while i < length:
-        index = i + start
-        if index < len(array):
-            shortlist.append(array[index])
-        else:
-            newindex = index % len(array)
-            shortlist.append(array[newindex])
-        i += 1
-
-    reversed(shortlist)
-
-    i = 0
-    while i < length:
-        index = i + start
-        if index < len(array):
-            array[index] = shortlist[i]
-        else:
-            array[index - len(array)] = shortlist[i]
-        i += 1
-    return array
-
 def revesesublist(biglist, index, length):
     return reverseit(getSubList(biglist, index, length))
 
