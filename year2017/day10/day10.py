@@ -26,22 +26,89 @@ def reverseit(listin):
         x -= 1
     return listout
 
-def runProgram(input, seqsize):
+def toSuffixAsciiList(text):
+    asciilist = list()
+    for c in text:
+        asciilist.append(ord(c))
+    asciilist.append(17)
+    asciilist.append(31)
+    asciilist.append(73)
+    asciilist.append(47)
+    asciilist.append(23)
+    return asciilist
+
+
+def shuffleSequence(sequence, moves, shuffles):
+    index = 0
+    skip =0
+    while shuffles > 0:
+        x = 0
+        while  x  < len(moves):
+            move = moves[x]
+            revsublist = revesesublist(sequence, index, move)
+            for y  in range(0, len(revsublist)):
+                sequence[(index + y) % len(sequence)] = revsublist[y]
+            index = index + skip + move
+            x += 1
+            skip += 1
+
+        shuffles -= 1
+    return sequence
+
+def xorlist(list):
+    result = list[0]
+    for x in range(1, len(list)):
+        result = result ^ list[x]
+    return result
+
+def toHexString(value):
+    hexy =  hex(value)[2:]
+    if len(hexy) == 1:
+        return "0{}".format(hexy)
+    else:
+        return hexy
+
+def runProgram1(input, seqsize):
+
     file = open(input, 'r')
     data = file.read()
 
     sequence = createSequence(seqsize)
     moves = data.split(",")
     moves = list(map(int, moves))
-    index = 0
-    for x in range(0, len(moves)):
-        move = moves[x]
-        revsublist = revesesublist(sequence, index, move)
-        for y  in range(0, len(revsublist)):
-            sequence[(index + y) % len(sequence)] = revsublist[y]
-        index = index + x + move
+
+    sequence = shuffleSequence(sequence, moves, 1)
     print("Final sequence of {} gives answer {} for sequence {}".format(input, sequence[0] * sequence[1], sequence))
 
-runProgram('sample.txt', 5)
+def runProgram2(input, seqsize):
+    file = open(input, 'r')
+    data = file.read()
+
+    asciilist = toSuffixAsciiList(data)
+
+    sequence = createSequence(seqsize)
+
+    sparsehash = shuffleSequence(sequence, asciilist, 64)
+
+    hexlist = list()
+    x = 0
+    while x + 16 <= len(sparsehash) :
+        sublist = getSubList(sparsehash, x, 16)
+        hexlist.append(toHexString(xorlist(sublist)))
+        x += 16
+
+    hexstr =''.join(str(e) for e in hexlist)
+    print("{} represented as hash: {}".format(input, hexstr))
+
+print("Part1 Sample")
+runProgram1('sample.txt', 5)
 print
-runProgram('input.txt', 256)
+print("Part1 Main")
+runProgram1('input.txt', 256)
+print
+print("Part2 Main")
+runProgram2('part2_sample_1.txt', 256)
+runProgram2('part2_sample_2.txt', 256)
+runProgram2('part2_sample_3.txt', 256)
+runProgram2('part2_sample_4.txt', 256)
+runProgram2('input.txt', 256)
