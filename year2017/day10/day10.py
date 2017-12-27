@@ -80,13 +80,10 @@ def runProgram1(input, seqsize):
     sequence = shuffleSequence(sequence, moves, 1)
     print("Final sequence of {} gives answer {} for sequence {}".format(input, sequence[0] * sequence[1], sequence))
 
-def runProgram2(input, seqsize):
-    file = open(input, 'r')
-    data = file.read()
+def knothash(text):
+    asciilist = toSuffixAsciiList(text)
 
-    asciilist = toSuffixAsciiList(data)
-
-    sequence = createSequence(seqsize)
+    sequence = createSequence(256)
 
     sparsehash = shuffleSequence(sequence, asciilist, 64)
 
@@ -98,17 +95,27 @@ def runProgram2(input, seqsize):
         x += 16
 
     hexstr =''.join(str(e) for e in hexlist)
+    return hexstr
+
+def runProgram2(input):
+    file = open(input, 'r')
+    data = file.read()
+    hexstr = knothash(data)
     print("{} represented as hash: {}".format(input, hexstr))
 
-print("Part1 Sample")
-runProgram1('sample.txt', 5)
-print
-print("Part1 Main")
-runProgram1('input.txt', 256)
-print
-print("Part2 Main")
-runProgram2('part2_sample_1.txt', 256)
-runProgram2('part2_sample_2.txt', 256)
-runProgram2('part2_sample_3.txt', 256)
-runProgram2('part2_sample_4.txt', 256)
-runProgram2('input.txt', 256)
+def runall():
+    print("Part1 Sample")
+    runProgram1('sample.txt', 5)
+    print
+    print("Part1 Main")
+    runProgram1('input.txt', 256)
+    print
+    print("Part2 Main")
+    runProgram2('part2_sample_1.txt')
+    runProgram2('part2_sample_2.txt')
+    runProgram2('part2_sample_3.txt')
+    runProgram2('part2_sample_4.txt')
+    runProgram2('input.txt')
+
+# Commented out because imported into Day14
+# runall()
