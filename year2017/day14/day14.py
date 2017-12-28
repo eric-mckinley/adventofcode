@@ -65,7 +65,7 @@ def pad(value):
         return "0{}".format(value)
     else:
         return value
-    
+
 runProgram1('flqrgnkx')
 runProgram1('ffayrhll')
 runProgram2('flqrgnkx')
