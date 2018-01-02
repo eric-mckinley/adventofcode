@@ -81,7 +81,7 @@ def runProgram2(inputfile):
     program0 = Program(0, instructions)
     program1 = Program(1, instructions)
 
-    while not program0.isBlocked() or not program1.isBlocked():
+    while not (program0.isBlocked() and program1.isBlocked()):
         program0.execute(program1.outqueue)
         program1.execute(program0.outqueue)
 
